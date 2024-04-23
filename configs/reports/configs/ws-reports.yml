@@ -2311,62 +2311,92 @@ ReportDefinitions:
     print:
       pdfPageSize: A1
   sourceColumns:
-  - name: consumercode
-    label: reports.ws.consumercode
+  - name: connectionno
+    label: reports.ws.connectionno
     type: string
     source: ws
     total: false
-  - name: total_arrear_demand_amount
-    label: reports.ws.total_arrear_demand_amount
+  - name: plotsize
+    label: reports.ws.plotsize
     type: string
     source: ws
     total: false
-  - name: current_charges_demand_amount
-    label: reports.ws.current_charges_demand_amount
-    type: string
-    source: ws
-    total: true
-  - name: arrear_usage_type
-    label: reports.ws.arrear_usage_type
+  - name: oldconnectionno
+    label: reports.ws.oldconnectionno
     type: string
     source: ws
     total: false
-  - name: current_charges_usage_type
-    label: reports.ws.current_charges_usage_type
+  - name: applicationno
+    label: reports.ws.applicationno
+    type: string
+    source: ws
+    total: false
+  - name: propertyid
+    label: reports.ws.propertyid
+    type: string
+    source: ws
+    total: false
+  - name: connectionholdertype
+    label: reports.ws.connectionholdertype
+    type: string
+    source: ws
+    total: false
+  - name: applicationstatus
+    label: reports.ws.applicationstatus
+    type: string
+    source: ws
+    total: false
+  - name: connectionholder
+    label: reports.ws.connectionholder
+    type: string
+    source: ws
+    total: false
+  - name: name
+    label: reports.ws.name
+    type: string
+    source: ws
+    total: false
+  - name: guardian
+    label: reports.ws.guardian
+    type: string
+    source: ws
+    total: false
+  - name: address
+    label: reports.ws.address
     type: string
     source: ws
     total: false
   query: |
     with OwnerInfo AS (
     select split_part(string_agg(userid, ','), ',', 1) AS owneruserid,
-           propertyid
+    propertyid
     from eg_pt_owner
-    where tenantid =  $tenantid AND status = 'ACTIVE'
+    where tenantid = $tenantid AND status = 'ACTIVE'
     group by propertyid
     ),
-     AddressInfo AS (
-     select split_part(string_agg(locality, ','), ',', 1) AS locality,
-           split_part(string_agg(concat(doorno, ' ', plotno, ' ', buildingname, ' ', street, ' ', city), '|'), '|', 1) AS address,
-           propertyid
+    AddressInfo AS (
+    select split_part(string_agg(locality, ','), ',', 1) AS locality,
+    split_part(string_agg(concat(doorno, ' ', plotno, ' ', buildingname, ' ', street, ' ', city), '|'), '|', 1) AS address,
+    propertyid
     from eg_pt_address
-    where tenantid =  $tenantid
+    where tenantid = $tenantid
     group by propertyid
     )
     select wsconnection.connectionno,
-       pt.landarea AS plotsize,
-       oldconnectionno,
-       applicationno,
-       pt.propertyid,
-       ch.connectionholdertype,
-       wsconnection.applicationstatus,
-       users.name AS connectionHolder,
-       userowner.name AS name,
-       userowner.guardian AS guardian,
-       concat(ai.address, ' ', ai.locality) AS address
-       from eg_ws_connection wsconnection
-       inner JOIN eg_pt_property pt ON pt.propertyid = wsconnection.property_id
-       inner JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.id
-       inner JOIN eg_user users ON ch.userid = users.uuid
-       inner JOIN OwnerInfo oi ON oi.propertyid = pt.id
-       inner JOIN eg_user userowner ON oi.owneruserid = userowner.uuid
-       inner JOIN AddressInfo ai ON ai.propertyid = pt.id;
+    pt.landarea AS plotsize,
+    oldconnectionno,
+    applicationno,
+    pt.propertyid as propertyid,
+    ch.connectionholdertype as connectionholdertype,
+    wsconnection.applicationstatus as applicationstatus,
+    users.name AS connectionholder,
+    userowner.name AS name,
+    userowner.guardian AS guardian,
+    concat(ai.address, ' ', ai.locality) AS address
+    from eg_ws_connection wsconnection
+    inner JOIN eg_pt_property pt ON pt.propertyid = wsconnection.property_id
+    inner JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.id
+    inner JOIN eg_user users ON ch.userid = users.uuid
+    inner JOIN OwnerInfo oi ON oi.propertyid = pt.id
+    inner JOIN eg_user userowner ON oi.owneruserid = userowner.uuid
+    inner JOIN AddressInfo ai ON ai.propertyid = pt.id;
