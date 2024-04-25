@@ -2304,6 +2304,7 @@ ReportDefinitions:
   orderby: ORDER BY consumercode
   
 - reportName: WsandSwDumpReport
+  decryptionPathId: ReceiptRegisterShort_V2
   summary: Ws and Sw Dump Report
   version: 1.0.0
   moduleName: rainmaker-ws
