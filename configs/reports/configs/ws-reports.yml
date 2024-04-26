@@ -2338,8 +2338,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: ownername
-    label: reports.ws.ownername
+  - name: connectionholdertype
+    label: reports.ws.connectionholdertype
     type: string
     source: ws
     total: false
@@ -2389,7 +2389,7 @@ ReportDefinitions:
     oldconnectionno,
     applicationno,
     pt.propertyid as propertyid,
-    ch.connectionholdertype as ownername,
+    ch.connectionholdertype as connectionholdertype,
     wsconnection.applicationstatus as applicationstatus,
     users.name AS connectionholder,
     userowner.name AS ownername,
