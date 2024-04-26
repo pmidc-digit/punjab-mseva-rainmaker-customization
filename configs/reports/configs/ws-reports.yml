@@ -2337,8 +2337,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: connectionholdertype
-    label: reports.ws.connectionholdertype
+  - name: ownername
+    label: reports.ws.ownername
     type: string
     source: ws
     total: false
@@ -2357,8 +2357,8 @@ ReportDefinitions:
     type: string
     source: ws
     total: false
-  - name: guardian
-    label: reports.ws.guardian
+  - name: guardianname
+    label: reports.ws.guardianname
     type: string
     source: ws
     total: false
@@ -2388,11 +2388,11 @@ ReportDefinitions:
     oldconnectionno,
     applicationno,
     pt.propertyid as propertyid,
-    ch.connectionholdertype as connectionholdertype,
+    ch.connectionholdertype as ownername,
     wsconnection.applicationstatus as applicationstatus,
     users.name AS connectionholder,
     userowner.name AS ownername,
-    userowner.guardian AS guardian,
+    userowner.guardian AS guardianname,
     concat(ai.address, ' ', ai.locality) AS address
     from eg_ws_connection wsconnection
     inner JOIN eg_pt_property pt ON pt.propertyid = wsconnection.property_id
