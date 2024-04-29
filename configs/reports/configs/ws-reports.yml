@@ -2397,8 +2397,8 @@ ReportDefinitions:
     concat(ai.address, ' ', ai.locality) AS address
     from eg_ws_connection wsconnection
     inner JOIN eg_pt_property pt ON pt.propertyid = wsconnection.property_id
-    inner JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.id
-    inner JOIN eg_user users ON ch.userid = users.uuid
+    left OUTER JOIN eg_ws_connectionholder ch ON ch.connectionid = wsconnection.id
+    left OUTER JOIN eg_user users ON ch.userid = users.uuid
     inner JOIN OwnerInfo oi ON oi.propertyid = pt.id
-    inner JOIN eg_user userowner ON oi.owneruserid = userowner.uuid
+    left OUTER JOIN eg_user userowner ON oi.owneruserid = userowner.uuid
     inner JOIN AddressInfo ai ON ai.propertyid = pt.id;
