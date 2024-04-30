@@ -1860,6 +1860,11 @@ ReportDefinitions:
         label: reports.uc.paymentmode
         type: string
         source: uc
+        total: false
+      - name: payername
+        label: reports.uc.payername
+        type: string
+        source: uc
         total: false        
       - name: comments
         label: reports.uc.comments
@@ -1940,6 +1945,7 @@ ReportDefinitions:
         SUM(CASE WHEN bad.taxheadcode LIKE '%_SGST' THEN adjustedamount ELSE 0 END) as sgst,
         SUM(CASE WHEN bad.taxheadcode LIKE '%_TAX' THEN adjustedamount ELSE 0 END) as tax,
         SUM(CASE WHEN bad.taxheadcode LIKE '%_FEE' THEN adjustedamount ELSE 0 END) as fieldcollection,
+        string_agg(distinct payment.payername,',') as payername,
         string_agg(distinct eg_user.name,',') as collectorname,
         'System' as collectiontype,
         To_char((To_timestamp(egcl_paymentdetail.receiptdate / 1000) at time Zone 'Asia/Kolkata'), 'DD/MM/YYYY') as receiptdate
