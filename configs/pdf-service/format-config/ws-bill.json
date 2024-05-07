@@ -1179,7 +1179,7 @@
       },
       "amount-due": {
         "fontSize": 20,
-        "color": "#FC8019",
+        "color": "#000000",
         "bold": true,
         "fontWeight": 700
       },
