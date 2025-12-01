@@ -1612,13 +1612,13 @@ ReportDefinitions:
     total: true
   searchParams:
   - name: fromDate
-    label: reports.rainmaker-pgr.datefrom
+    label: datefrom
     type: epoch
     source: eg_pgr_service
     isMandatory: false
     searchClause: AND pgr_data.createdtime >= $fromDate
   - name: toDate
-    label: reports.rainmaker-pgr.dateto
+    label: dateto
     type: epoch
     source: eg_pgr_service
     isMandatory: false
